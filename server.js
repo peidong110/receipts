@@ -28,9 +28,10 @@ function sendResponse(recipesData, res){
     page += 'Recipes: ' + '<p>' //weatherData is string format but other get is null or object type
     let foods = JSON.parse(recipesData).recipes
     for(let i=0;i<foods.length;i++){
-      page+=`<div class="img"><a href=${foods[i].f2f_url} target="_blank" >` +
-      `<img src=${foods[i].image_url} width='320' height='210'></a>` +
-      `<span class="caption">${foods[i].title}</span></div>`
+      page+=`<div class="img"><table  border="1" cellpadding="4" cellspacing="0" style="BORDER-COLLAPSE: collapse" borderColor=#000000>` +
+      `<tr><th><a href=${foods[i].f2f_url} target="_blank" >` +
+      `<img src=${foods[i].image_url} width='320' height='210'></a></tr></th>` +
+      `<tr><td><a href=${foods[i].f2f_url} target="_blank" ><span class="caption">${foods[i].title}</span></a></tr></td></table></div>`
     }
   }
   page += '</p></body></html>'
