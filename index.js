@@ -1,3 +1,4 @@
+//import things need to work for this programme
 const express = require('express');
 const app = express();
 let http = require('http');
@@ -6,8 +7,8 @@ let url = require('url')
 let qstring = require('querystring')
 const PORT = process.env.PORT || 3000
 const ROOT_DIR = '/public';
-const API_KEY = '5b8d8bb697810bdbb3b328f89556484a';
-
+const API_KEY = '7ea43ce21fb22ddd47ca0799f28618b2';
+//send response 
 function sendResponse(recipesData, res){
   var page = '<html><head><title>Food4Thought</title>' +
     '<style>' +
@@ -88,39 +89,17 @@ app.use(function(req, res) {
       getRecipes(queryParams.ingredient, res)//only send query string data
     })
   }
-   if (req.method=="GET") {
-    let reqData_get = ''
-    req.on('data',chunck=>{
-      reqData_get +=chunck
-    })
-
-    req.on('end',()=>{
-      let req_ingre = qstring.parse(query).ingredient
-      if (req_ingre) {
-        getRecipes(req_ingre,res)
-      }else {
-        sendResponse(null, res)//pass get '/' through
+   else if (req.method=="GET") {
+          if(query != null && query.indexOf("ingredients=") != -1){
+          // cityName = query.substring(5)
+          getRecipes(query.substring(12), res);
+      }else{
+          sendResponse(null, res)
       }
-    })
-    return
+    } else {
+    sendResponse(null, res)
   }
 })
-
-//app.use(express.static(__dirname + ROOT_DIR)) //provide static server
-
-// app.get('/', function (req, res) {
-//   getRecipes('cake', res);
-// })
-// app.get('/recipes.html', function (req, res) {
-//   var name = req.query.ingredient || 'cake';
-//   getRecipes(name, res);
-// })
-// app.get('/index.html', function (req, res) {
-//   var name = req.query.ingredient || 'cake';
-//   console.log("index")
-//   getRecipes(name, res);
-// })
-
 //start server
 app.listen(PORT, err => {
   if(err) console.log('error: ' + err)
